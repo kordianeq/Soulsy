@@ -5,6 +5,13 @@ public enum GameState
     Paused, Checkpoint, Dialogue, Cutscene,
     Dead,
 }
+public enum  PlayerLocation
+{
+    Dungeon1,
+    Dungeon2,
+    Hub,
+    BossRoom,
+}
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -23,7 +30,7 @@ public class GameManager : MonoBehaviour
         }
     }
     public GameState currentState = GameState.Normal; // aktualny stan gry
-
+    public PlayerLocation playerLocation = PlayerLocation.Hub; // lokalizacja gracza
 
     public AnimationManager animationManager; // referencja do AnimationManager
     public UiManager uiManager; // referencja do UiManager
@@ -31,6 +38,11 @@ public class GameManager : MonoBehaviour
     {
         animationManager = GameObject.Find("Player").GetComponentInChildren<AnimationManager>();
         uiManager = GameObject.Find("Canvas").GetComponent<UiManager>();
+    }
+
+    public void UpdatePlayerLocation()
+    {
+        uiManager.UpdatePlayerLocationName(playerLocation.ToString());
     }
     public void CheckpointReached()
     {
