@@ -24,24 +24,27 @@ public class EquipmentSystem: MonoBehaviour
 
     public void DrawWeapon()
     {
-        Debug.Log("weapon picked");
+        if (weapon == null || weaponHeld == null)
+        {
+            Debug.LogError("EquipmentSystem: weapon or weaponHeld is null", gameObject);
+            return;
+        }
+
         currentWeaponInHand = Instantiate(weapon, weaponHeld.transform);
-        Destroy(currentWeaponInSlot);
+        if (currentWeaponInSlot != null)
+            Destroy(currentWeaponInSlot);
     }
 
     public void SlotWeapon()
     {
-        currentWeaponInSlot = Instantiate(weapon, weaponSlot.transform);
-        Destroy(currentWeaponInHand);
-    }
-    // Update is called once per frame
+        if (weapon == null || weaponSlot == null)
+        {
+            Debug.LogError("EquipmentSystem: weapon or weaponSlot is null", gameObject);
+            return;
+        }
 
-    //public void CastFire()
-    //{
-    //    currentFire.Play();
-    //}
-    void Update()
-    {
-        
+        currentWeaponInSlot = Instantiate(weapon, weaponSlot.transform);
+        if (currentWeaponInHand != null)
+            Destroy(currentWeaponInHand);
     }
 }

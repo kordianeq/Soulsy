@@ -2,55 +2,45 @@ using UnityEngine;
 
 public class Upgrade : MonoBehaviour
 {
-    Animator animator;
-    GameObject PlayerCharacter;
-   
-    ParticleSystem particlesystem;
+    [SerializeField] private Animator animator;
+    [SerializeField] private ParticleSystem particleSystem;
 
     public Color ParticleColor1;
     public Color ParticleColor2;
 
-    bool used;
-    bool Epressed;
-    // Start is called before the first frame update
-    void Start()
+    private bool used = false;
+    private bool ePressed = false;
+
+    private void Start()
     {
-        PlayerCharacter = GameObject.FindWithTag("PlayerCharacter");
-        animator = PlayerCharacter.GetComponent<Animator>();
-        particlesystem = GetComponent<ParticleSystem>();
-        Epressed = false;
+        if (animator == null)
+        {
+            GameObject playerCharacter = GameObject.FindWithTag("Player");
+            if (playerCharacter != null)
+                animator = playerCharacter.GetComponent<Animator>();
+        }
+
+        if (particleSystem == null)
+            particleSystem = GetComponent<ParticleSystem>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Epressed = true;
-        }
-        else Epressed = false;
+        ePressed = Input.GetKeyDown(KeyCode.E);
     }
 
-   
-    public void OnTriggerStay(Collider obiect)
+    private void OnTriggerStay(Collider other)
     {
-        if (obiect.gameObject.CompareTag("Player"))
-        {
-            if (Epressed == true && used == false)
-            {
-                Debug.Log("LevelUp");
-                animator.SetTrigger("Upgrade");
+        if (other == null || animator == null)
+            return;
 
-                particlesystem.Pause();
-                used = true;
-            }
-            else if(Epressed == true && used == true)
-            {
-                Debug.Log("Already Used");
-               
-            }
+        if (other.CompareTag("Player") && ePressed && !used)
+        {
+            animator.SetTrigger("Upgrade");
+            if (particleSystem != null)
+                particleSystem.Pause();
+            used = true;
         }
-        
     }
     
 }

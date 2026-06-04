@@ -4,26 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CanvasMenager : MonoBehaviour
-{
-    public Text timerText;
-    public TextMeshProUGUI speed;
-
-    GameObject player;
-    PlayerMovement playerMovement; 
-    bool isGamePaused;
-    [SerializeField] GameObject PausePanel;
-
-    [Header("Keybinds")]
-    public KeyCode pauseButton = KeyCode.P;
-
-    // Start is called before the first frame update
-    private void Start()
     {
-        PausePanel.SetActive(false);
-        isGamePaused = false;
+        public Text timerText;
+        public TextMeshProUGUI speed;
 
-        player = GameObject.Find("Player");
-        playerMovement = player.GetComponent<PlayerMovement>();
+        [SerializeField] private PlayerMovement playerMovement;
+        bool isGamePaused;
+        [SerializeField] GameObject PausePanel;
+
+        [Header("Keybinds")]
+        public KeyCode pauseButton = KeyCode.P;
+
+        // Start is called before the first frame update
+        private void Start()
+        {
+            if (playerMovement == null)
+                playerMovement = FindObjectOfType<PlayerMovement>();
+
+            PausePanel.SetActive(false);
+            isGamePaused = false;
     }
 
     // Update is called once per frame

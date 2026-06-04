@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class SwordSwingScript : MonoBehaviour
 {
+    [SerializeField] private GameObject Sword;
+    [SerializeField] private float animationDuration = 0.66f;
+    private Animator swordAnimator;
 
-    public GameObject Sword;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-
+        if (Sword != null)
+            swordAnimator = Sword.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && swordAnimator != null)
         {
             StartCoroutine(SwordAnim());
         }
     }
 
-    IEnumerator SwordAnim()
+    private IEnumerator SwordAnim()
     {
-        Sword.GetComponent<Animator>().Play("SwordAnim");
-        yield return new WaitForSeconds(0.66f);
-        Sword.GetComponent<Animator>().Play("Default");
+        swordAnimator.Play("SwordAnim");
+        yield return new WaitForSeconds(animationDuration);
+        swordAnimator.Play("Default");
     }
 }

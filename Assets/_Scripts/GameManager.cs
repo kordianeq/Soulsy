@@ -34,12 +34,12 @@ public class GameManager : MonoBehaviour
 
     public AnimationManager animationManager; // referencja do AnimationManager
     public UiManager uiManager; // referencja do UiManager
-    private void Start()
+  
+    public void RegisterUi(UiManager ui)
     {
-        animationManager = GameObject.Find("Player").GetComponentInChildren<AnimationManager>();
-        uiManager = GameObject.Find("Canvas").GetComponent<UiManager>();
+        uiManager = ui;
+        Debug.Log("UI registered to GameManager");
     }
-
     public void UpdatePlayerLocation()
     {
         uiManager.UpdatePlayerLocationName(playerLocation.ToString());
